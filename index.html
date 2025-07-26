@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Treasure Hunt (HTML Only!)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #1a1a2e;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: gold;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+        }
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .tile {
+            width: 80px;
+            height: 80px;
+            background: #16213e;
+            border: 2px solid #4cc9f0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #4cc9f0;
+        }
+        .tile:active {
+            transform: scale(0.95);
+        }
+        .tile::after {
+            content: "❓";
+            font-size: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /* Hidden treasure */
+        #treasure1:checked ~ .game-board .tile1::after,
+        #treasure2:checked ~ .game-board .tile2::after,
+        #treasure3:checked ~ .game-board .tile3::after {
+            content: "💎";
+            color: gold;
+            text-shadow: 0 0 10px gold;
+        }
+        /* Hidden bomb */
+        #bomb1:checked ~ .game-board .tile4::after,
+        #bomb2:checked ~ .game-board .tile5::after {
+            content: "💣";
+            color: red;
+            animation: shake 0.5s infinite;
+        }
+        /* Hidden empty */
+        #empty1:checked ~ .game-board .tile6::after,
+        #empty2:checked ~ .game-board .tile7::after,
+        #empty3:checked ~ .game-board .tile8::after,
+        #empty4:checked ~ .game-board .tile9::after,
+        #empty5:checked ~ .game-board .tile10::after {
+            content: "🌊";
+            color: #4cc9f0;
+        }
+        /* Win/Lose messages */
+        #treasure1:checked ~ #win-message,
+        #treasure2:checked ~ #win-message,
+        #treasure3:checked ~ #win-message {
+            display: block;
+        }
+        #bomb1:checked ~ #lose-message,
+        #bomb2:checked ~ #lose-message {
+            display: block;
+        }
+        #win-message, #lose-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 24px;
+            animation: pulse 1.5s infinite;
+        }
+        #win-message {
+            color: gold;
+        }
+        #lose-message {
+            color: red;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-5deg); }
+            75% { transform: translate(-50%, -50%) rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🌴 Treasure Hunt 🌴</h1>
+    <p>Click tiles to find treasure—but avoid bombs!</p>
+
+    <!-- Hidden checkboxes control the game state -->
+    <input type="checkbox" id="treasure1" hidden>
+    <input type="checkbox" id="treasure2" hidden>
+    <input type="checkbox" id="treasure3" hidden>
+    <input type="checkbox" id="bomb1" hidden>
+    <input type="checkbox" id="bomb2" hidden>
+    <input type="checkbox" id="empty1" hidden>
+    <input type="checkbox" id="empty2" hidden>
+    <input type="checkbox" id="empty3" hidden>
+    <input type="checkbox" id="empty4" hidden>
+    <input type="checkbox" id="empty5" hidden>
+
+    <div class="game-board">
+        <!-- Each tile is a label that toggles a checkbox -->
+        <label class="tile tile1" for="treasure1"></label>
+        <label class="tile tile2" for="treasure2"></label>
+        <label class="tile tile3" for="treasure3"></label>
+        <label class="tile tile4" for="bomb1"></label>
+        <label class="tile tile5" for="bomb2"></label>
+        <label class="tile tile6" for="empty1"></label>
+        <label class="tile tile7" for="empty2"></label>
+        <label class="tile tile8" for="empty3"></label>
+        <label class="tile tile9" for="empty4"></label>
+        <label class="tile tile10" for="empty5"></label>
+    </div>
+
+    <div id="win-message">🎉 You found treasure! Refresh to play again.</div>
+    <div id="lose-message">💥 You hit a bomb! Refresh to try again.</div>
+
+    <p><small>Hint: Treasures are in the first 3 tiles, bombs in 4-5.</small></p>
+</body>
+</html>
